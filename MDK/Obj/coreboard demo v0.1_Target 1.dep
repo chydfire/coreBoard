@@ -1,0 +1,137 @@
+Dependencies for Project 'coreboard demo v0.1', Target 'Target 1': (DO NOT MODIFY !)
+F (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM\startup_W7500x.s)(0x5821A902)(--cpu Cortex-M0 --li -g --apcs=interwork -IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM--pd "__UVISION_VERSION SETA 524"--list .\list\startup_w7500x.lst --xref -o .\obj\startup_w7500x.o --depend .\obj\startup_w7500x.d)
+F (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\src\W7500x_crg.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\w7500x_crg.o --omf_browse .\obj\w7500x_crg.crf --depend .\obj\w7500x_crg.d)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_crg.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+F (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\src\W7500x_gpio.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\w7500x_gpio.o --omf_browse .\obj\w7500x_gpio.crf --depend .\obj\w7500x_gpio.d)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_gpio.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+F (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\src\W7500x_uart.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\w7500x_uart.o --omf_browse .\obj\w7500x_uart.crf --depend .\obj\w7500x_uart.d)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_uart.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+F (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\src\W7500x_wztoe.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\w7500x_wztoe.o --omf_browse .\obj\w7500x_wztoe.crf --depend .\obj\w7500x_wztoe.d)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_wztoe.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+F (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\system_W7500x.c)(0x5A03EAB0)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\system_w7500x.o --omf_browse .\obj\system_w7500x.crf --depend .\obj\system_w7500x.d)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+F (..\main.c)(0x5A150DC1)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_gpio.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_uart.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_crg.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_wztoe.h)(0x5821A902)
+I (..\..\..\..\..\ioLibrary\MDIO\W7500x_miim.h)(0x5821A902)
+I (..\hx711.h)(0x5A0E7470)
+I (..\..\..\..\..\ioLibrary\Internet\DHCP\dhcp.h)(0x5821A902)
+I (..\..\..\..\..\ioLibrary\Ethernet\socket.h)(0x5821A902)
+I (..\..\..\..\..\ioLibrary\Ethernet\wizchip_conf.h)(0x5821A902)
+F (..\retarget.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\retarget.o --omf_browse .\obj\retarget.crf --depend .\obj\retarget.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_uart.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\time.h)(0x588B8344)
+I (C:\Keil_v5\ARM\ARMCC\include\rt_misc.h)(0x588B8344)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x588B8344)
+F (..\W7500x_it.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\w7500x_it.o --omf_browse .\obj\w7500x_it.crf --depend .\obj\w7500x_it.d)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (..\..\..\..\..\ioLibrary\Internet\DHCP\dhcp.h)(0x5821A902)
+I (..\..\..\..\..\ioLibrary\Ethernet\socket.h)(0x5821A902)
+I (..\..\..\..\..\ioLibrary\Ethernet\wizchip_conf.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_wztoe.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+F (..\..\..\..\..\ioLibrary\Ethernet\socket.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\socket.o --omf_browse .\obj\socket.crf --depend .\obj\socket.d)
+I (..\..\..\..\..\ioLibrary\Ethernet\socket.h)(0x5821A902)
+I (..\..\..\..\..\ioLibrary\Ethernet\wizchip_conf.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_wztoe.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+F (..\..\..\..\..\ioLibrary\Ethernet\wizchip_conf.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\wizchip_conf.o --omf_browse .\obj\wizchip_conf.crf --depend .\obj\wizchip_conf.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x588B8344)
+I (..\..\..\..\..\ioLibrary\Ethernet\wizchip_conf.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_wztoe.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+F (..\..\..\..\..\ioLibrary\Internet\DHCP\dhcp.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\dhcp.o --omf_browse .\obj\dhcp.crf --depend .\obj\dhcp.d)
+I (..\..\..\..\..\ioLibrary\Internet\DHCP\dhcp.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\ioLibrary\Ethernet\socket.h)(0x5821A902)
+I (..\..\..\..\..\ioLibrary\Ethernet\wizchip_conf.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_wztoe.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+F (..\..\..\..\..\ioLibrary\MDIO\W7500x_miim.c)(0x5821A902)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\w7500x_miim.o --omf_browse .\obj\w7500x_miim.crf --depend .\obj\w7500x_miim.d)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
+I (..\..\..\..\..\ioLibrary\MDIO\W7500x_miim.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_gpio.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+F (..\hx711.c)(0x5A0E7271)(-c --cpu Cortex-M0 --li -g -O3 --apcs=interwork -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Source\ARM -I ..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include -I ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc -I ..\..\..\..\..\Libraries\CMSIS\Include -I ..\ -I ..\..\..\..\..\ioLibrary\MDIO -I ..\..\..\..\..\ioLibrary\Ethernet -I ..\..\..\..\..\ioLibrary\Internet\DHCP -I ..\..\..\..\..\ioLibrary\Internet\DNS -I ..\..\..\..\..\ioLibrary\Application\loopback-IC:\Keil_v5\ARM\RV31\INC-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\INC\ARM-D__UVISION_VERSION="524" -DCORTEX_M0 -DUSE_STDPERIPH_DRIVER-o .\obj\hx711.o --omf_browse .\obj\hx711.crf --depend .\obj\hx711.d)
+I (..\hx711.h)(0x5A0E7470)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cm0.h)(0x5821A902)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmInstr.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Include\core_cmFunc.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\CMSIS\Device\WIZnet\W7500\Include\system_W7500x.h)(0x5821A902)
+I (..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_gpio.h)(0x5821A902)
