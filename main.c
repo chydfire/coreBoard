@@ -45,6 +45,7 @@
 #include "dhcp.h"
 #include "socket.h"
 
+#include "jiansensors.h"
 /* Private typedef -----------------------------------------------------------*/
 UART_InitTypeDef UART_InitStructure;
 
@@ -61,6 +62,11 @@ UART_InitTypeDef UART_InitStructure;
 #define SOCK_DHCP	2
 
 #define MY_MAX_DHCP_RETRY   3
+
+#define ALLJSCNT 14
+#define SENSORS_CNT 3
+#define GAIN 1
+
 /* Private function prototypes -----------------------------------------------*/
 void delay(__IO uint32_t milliseconds); //Notice: used ioLibray
 void TimingDelay_Decrement(void);
@@ -68,33 +74,60 @@ void TimingDelay_Decrement(void);
 /* Private variables ---------------------------------------------------------*/
 static __IO uint32_t TimingDelay;
 uint8_t test_buf[2048];
-uint8_t test_dest_ip[4]={192,168,10,255};
-uint16_t test_dest_port = 2424;
 uint32_t my_dhcp_retry = 0;
+uint8_t dest_ip[4];
+uint16_t dest_port = 1234;
+uint8_t mac_addr[6] = {0xEE, 0xEE, 0xEE, 0x01, 0x01, 0x01};
+uint8_t sensors_used_jno[SENSORS_CNT] = {1,2,3};
+uint32_t weight_vals[SENSORS_CNT];
+uint32_t weight_vals_pre[SENSORS_CNT];
+char udp_send_txt[256];
 
+
+/**********||    |DAT  |SCK  ||****************/
+/**********||----|-----|-----||****************/
+/**********|| J1 |PC_08|PC_09||****************/
+/**********|| J2 |PC_12|PC_13||****************/
+/**********|| J3 |PC_14|PC_15||****************/
+/**********|| J4 |PA_05|PA_06||****************/
+/**********|| J5 |PA_07|PA_08||****************/
+/**********|| J6 |PA_09|PA_10||****************/
+/**********|| J7 |PA_00|PA_01||****************/
+/**********|| J8 |PA_02|PA_11||****************/
+/**********|| J9 |PA_12|PA_13||****************/
+/**********|| J10|PA_14|PB_00||****************/
+/**********|| J11|PB_01|PB_02||****************/
+/**********|| J12|PB_03|PB_00||****************/
+/**********|| J13|PC_01|PC_02||****************/
+/**********|| J14|PC_03|PC_04||****************/
+JIANBOARD_J ALLJS[ALLJSCNT] = {{GPIOC, GPIO_Pin_8, GPIOC, GPIO_Pin_9},        //J1
+															 {GPIOC, GPIO_Pin_12, GPIOC, GPIO_Pin_13},      //J2
+															 {GPIOC, GPIO_Pin_14, GPIOC, GPIO_Pin_15},      //J3
+															 {GPIOA, GPIO_Pin_5, GPIOA, GPIO_Pin_6},        //J4
+															 {GPIOA, GPIO_Pin_7, GPIOA, GPIO_Pin_8},        //J5
+															 {GPIOA, GPIO_Pin_9, GPIOA, GPIO_Pin_10},       //J6
+															 {GPIOA, GPIO_Pin_0, GPIOA, GPIO_Pin_1},        //J7
+															 {GPIOA, GPIO_Pin_2, GPIOA, GPIO_Pin_11},       //J8
+															 {GPIOA, GPIO_Pin_12, GPIOA, GPIO_Pin_13},      //J9
+															 {GPIOA, GPIO_Pin_14, GPIOB, GPIO_Pin_0},       //J10
+															 {GPIOB, GPIO_Pin_1, GPIOB, GPIO_Pin_2},        //J11
+															 {GPIOB, GPIO_Pin_3, GPIOB, GPIO_Pin_0},        //J12
+															 {GPIOC, GPIO_Pin_1, GPIOC, GPIO_Pin_2},        //J13
+															 {GPIOC, GPIO_Pin_3, GPIOC, GPIO_Pin_4}};       //J14
 /**
  * @brief   Main program
  * @param  None
  * @retval None
  */
 int main()
-{
-    uint8_t mac_addr[6] = {0x00, 0x08, 0xDC, 0x71, 0x72, 0x77}; 
-    uint8_t src_addr[4] = {192, 168,  77,  9};
-    uint8_t gw_addr[4]  = {192, 168,  77,  1};
-    uint8_t sub_addr[4] = {255, 255, 255,  0};	
+{ 
     uint8_t tmp[8];
     uint32_t toggle = 1;
     int32_t ret;
+		char tmp_udp_send_txt[10];
+		int i;
 		
-		HX711 sensor1 = {GPIOC, GPIOC, GPIO_Pin_15, GPIO_Pin_14, 0, 3};
-		uint32_t test_maopi;
-		uint32_t test_weight;
-		uint8_t test_udp_send_len;
-		char test_udp_send_txt[256];
-    char tmp_udp_send_txt[10];
-		char udp_send_mac[4];
-    sprintf(udp_send_mac,"%X%X",mac_addr[4],mac_addr[5]);
+
     /* External Clock */
     //CRG_PLL_InputFrequencySelect(CRG_OCLK);
 
@@ -105,11 +138,17 @@ int main()
     SysTick_Config((GetSystemClock()/1000));
     /* Set WZ_100US Register */
     setTIC100US((GetSystemClock()/10000));
+	  /* Sensors init*/
+		for(i=0;i<SENSORS_CNT;i++)
+    {
+			JianSensor_Init(ALLJS[sensors_used_jno[i]-1], SENSORS_CNT);
+		}
 		
-		HX711_Init(sensor1);
-		delay(1000);
-	  test_maopi = HX711_Read(sensor1)/100;
-		
+		for(i=0;i<SENSORS_CNT;i++)
+		{
+			weight_vals_pre[i] = JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN);
+		}
+
 #ifdef __DEF_USED_IC101AG__ //For using IC+101AG
     *(volatile uint32_t *)(0x41003068) = 0x64; //TXD0 - set PAD strengh and pull-up
     *(volatile uint32_t *)(0x4100306C) = 0x64; //TXD1 - set PAD strengh and pull-up
@@ -141,14 +180,6 @@ int main()
 
     /* Network Configuration (Default setting) */
     setSHAR(mac_addr);
-    setSIPR(src_addr);
-    setGAR(gw_addr);
-    setSUBR(sub_addr);
-
-    getSHAR(tmp);	printf("MAC ADDRESS : %.2X:%.2X:%.2X:%.2X:%.2X:%.2X\r\n",tmp[0],tmp[1],tmp[2],tmp[3],tmp[4],tmp[5]); 
-    getSIPR(tmp); printf("IP ADDRESS : %.3d.%.3d.%.3d.%.3d\r\n",tmp[0],tmp[1],tmp[2],tmp[3]); 
-    getGAR(tmp);  printf("GW ADDRESS : %.3d.%.3d.%.3d.%.3d\r\n",tmp[0],tmp[1],tmp[2],tmp[3]); 
-    getSUBR(tmp); printf("SN MASK: %.3d.%.3d.%.3d.%.3d\r\n",tmp[0],tmp[1],tmp[2],tmp[3]); 
 
     /* Set Network Configuration */
     //wizchip_init(tx_size, rx_size);
@@ -158,13 +189,13 @@ int main()
     /* DHCP IP allocation and check the DHCP lease time (for IP renewal) */
     while(1)
     {
-			memset(test_udp_send_txt,0,sizeof(test_udp_send_txt));
-			strcpy(test_udp_send_txt,udp_send_mac);
-			strcat(test_udp_send_txt," H ");
-			test_weight = HX711_Read(sensor1)/100;
-			sprintf(tmp_udp_send_txt,"%d",test_weight-test_maopi);
-			strcat(test_udp_send_txt, tmp_udp_send_txt);
-			test_udp_send_len = strlen(test_udp_send_txt);
+			  printf("> weight:");
+			  for(i=0;i<SENSORS_CNT;i++)
+        {
+					weight_vals[i] = JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN);
+				  printf(" %d", (int32_t)weight_vals[i]-18641);
+				}
+				printf("\r\n");
         switch(DHCP_run())
         {
             case DHCP_IP_ASSIGN:
@@ -187,10 +218,21 @@ int main()
                 if(toggle)
                 {
 										getSIPR(tmp); printf("> DHCP IP : %d.%d.%d.%d\r\n", tmp[0], tmp[1], tmp[2], tmp[3]);
+									  memcpy(dest_ip, tmp ,sizeof(uint8_t)*4);
+									  dest_ip[3] = 255;
                     getGAR(tmp);  printf("> DHCP GW : %d.%d.%d.%d\r\n", tmp[0], tmp[1], tmp[2], tmp[3]);
                     getSUBR(tmp); printf("> DHCP SN : %d.%d.%d.%d\r\n", tmp[0], tmp[1], tmp[2], tmp[3]);
                     toggle = 0;
-                }  
+                }
+								sprintf(tmp_udp_send_txt,"%.2X%.2X",mac_addr[4],mac_addr[5]);
+								strcpy(udp_send_txt, tmp_udp_send_txt);
+								strcat(udp_send_txt," H");
+								for(i=0;i<SENSORS_CNT;i++)
+								{
+									sprintf(tmp_udp_send_txt, " %d", (int32_t)weight_vals[i]-18641);
+									strcat(udp_send_txt,tmp_udp_send_txt);
+								}
+								
                 // TO DO YOUR NETWORK APPs.
 								switch(getSn_SR(SOCK_UDPS))
 								{
@@ -210,8 +252,7 @@ int main()
 										}
 										break;
 							  }
-								ret = sendto(SOCK_UDPS,(uint8_t*)test_udp_send_txt,test_udp_send_len,test_dest_ip,test_dest_port);
-								delay(200);
+								ret = sendto(SOCK_UDPS, (uint8_t*)udp_send_txt, strlen(udp_send_txt), dest_ip, dest_port);
                 break;
 
             case DHCP_FAILED:
@@ -232,7 +273,7 @@ int main()
                 break;
         }	
 
-
+    memset(udp_send_txt,0,sizeof(udp_send_txt));
     }
 
 }

@@ -9,7 +9,6 @@ typedef struct _hx711
 	GPIO_TypeDef* gpioData;
 	uint16_t pinSck;
 	uint16_t pinData;
-	int offset;
 	int gain;
 	// 1: channel A, gain factor 128
 	// 2: channel B, gain factor 32
