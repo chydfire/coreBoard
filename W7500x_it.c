@@ -35,7 +35,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "W7500x.h"
 #include "dhcp.h"
-
+#include "W7500x_it.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -87,16 +87,25 @@ void PendSV_Handler(void)
   * @retval None
   */
 uint16_t dhcp_1sec =0;
+uint16_t systickcnt = 0;
+uint16_t heartbeat = 0;
+uint8_t flag_event_H = 0;
 void SysTick_Handler(void)
 {
 	TimingDelay_Decrement();
 	dhcp_1sec++;
+	systickcnt++;
+	heartbeat++;
 	if(dhcp_1sec>1000)
 	{
 		DHCP_time_handler();
 		dhcp_1sec =0;
 	}
-
+	if(heartbeat>3000)
+  {
+		heartbeat = 0;
+		flag_event_H = 1;
+	}
 }
 
 

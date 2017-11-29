@@ -83,7 +83,9 @@ void EXTI_Handler(void);
 
 
 
-
+extern uint16_t systickcnt;
+extern uint16_t heartbeat;
+extern uint8_t flag_event_H;
 
 					 
 #endif /* __W7500X_IT_H */

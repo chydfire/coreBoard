@@ -40,7 +40,7 @@
 #include "W7500x_wztoe.h"
 #include "W7500x_miim.h"
 
-//#include "W7500x_it.h"
+#include "W7500x_it.h"
 #include "hx711.h"
 #include "dhcp.h"
 #include "socket.h"
@@ -66,6 +66,7 @@ UART_InitTypeDef UART_InitStructure;
 #define ALLJSCNT 14
 #define SENSORS_CNT 3
 #define GAIN 1
+#define WEIGTHERR 5
 
 /* Private function prototypes -----------------------------------------------*/
 void delay(__IO uint32_t milliseconds); //Notice: used ioLibray
@@ -80,9 +81,15 @@ uint16_t dest_port = 1234;
 uint8_t mac_addr[6] = {0xEE, 0xEE, 0xEE, 0x01, 0x01, 0x01};
 uint8_t sensors_used_jno[SENSORS_CNT] = {1,2,3};
 uint32_t weight_vals[SENSORS_CNT];
-uint32_t weight_vals_pre[SENSORS_CNT];
+uint32_t weight_vals_pre1[SENSORS_CNT];
+uint32_t weight_vals_pre2[SENSORS_CNT];
+uint32_t weight_vals_state[SENSORS_CNT];
+uint16_t systick_start[SENSORS_CNT];
+uint16_t systick_stop[SENSORS_CNT];
+uint16_t flag_event_E = 0;
+uint16_t flag_event_A = 0;
+uint16_t flag_init_state = 0;
 char udp_send_txt[256];
-
 
 /**********||    |DAT  |SCK  ||****************/
 /**********||----|-----|-----||****************/
@@ -125,7 +132,7 @@ int main()
     uint32_t toggle = 1;
     int32_t ret;
 		char tmp_udp_send_txt[10];
-		int i;
+		int i,j;
 		
 
     /* External Clock */
@@ -143,10 +150,19 @@ int main()
     {
 			JianSensor_Init(ALLJS[sensors_used_jno[i]-1], SENSORS_CNT);
 		}
-		
-		for(i=0;i<SENSORS_CNT;i++)
+		for(j=0;j<16;j++)
 		{
-			weight_vals_pre[i] = JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN);
+			for(i=0;i<SENSORS_CNT;i++)
+			{
+				weight_vals_pre2[i] += JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN)>>4;
+			}
+		}
+		for(j=0;j<16;j++)
+		{
+			for(i=0;i<SENSORS_CNT;i++)
+			{
+				weight_vals_pre1[i] += JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN)>>4;
+			}
 		}
 
 #ifdef __DEF_USED_IC101AG__ //For using IC+101AG
@@ -189,13 +205,37 @@ int main()
     /* DHCP IP allocation and check the DHCP lease time (for IP renewal) */
     while(1)
     {
-			  printf("> weight:");
+			  delay(100);
 			  for(i=0;i<SENSORS_CNT;i++)
-        {
+				{
 					weight_vals[i] = JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN);
-				  printf(" %d", (int32_t)weight_vals[i]-18641);
+					if((weight_vals[i]==weight_vals_pre1[i])&&
+						 (weight_vals[i]==weight_vals_pre2[i]))
+					{ 
+						if((flag_init_state>>i)&1)
+						{
+							if(weight_vals[i] == 18641)
+								flag_event_E = flag_event_E | (1<<i);
+							if((weight_vals[i]>(weight_vals_state[i]+WEIGTHERR)) ||
+								 (weight_vals_state[i]>(weight_vals[i]+WEIGTHERR)))
+							{
+								flag_event_A = flag_event_A | (1<<i);
+								systick_stop[i] = systick_start[i];
+							}
+							systick_start[i] = systickcnt;
+						}
+						else
+						{
+							flag_init_state = flag_init_state | (1<<i);
+							weight_vals_state[i] = weight_vals[i];
+						}
+					}
+					weight_vals_pre2[i] = weight_vals_pre1[i];
+					weight_vals_pre1[i] = weight_vals[i];
+					printf(" %d", (int32_t)weight_vals[i]-18641);
 				}
 				printf("\r\n");
+				
         switch(DHCP_run())
         {
             case DHCP_IP_ASSIGN:
@@ -224,14 +264,6 @@ int main()
                     getSUBR(tmp); printf("> DHCP SN : %d.%d.%d.%d\r\n", tmp[0], tmp[1], tmp[2], tmp[3]);
                     toggle = 0;
                 }
-								sprintf(tmp_udp_send_txt,"%.2X%.2X",mac_addr[4],mac_addr[5]);
-								strcpy(udp_send_txt, tmp_udp_send_txt);
-								strcat(udp_send_txt," H");
-								for(i=0;i<SENSORS_CNT;i++)
-								{
-									sprintf(tmp_udp_send_txt, " %d", (int32_t)weight_vals[i]-18641);
-									strcat(udp_send_txt,tmp_udp_send_txt);
-								}
 								
                 // TO DO YOUR NETWORK APPs.
 								switch(getSn_SR(SOCK_UDPS))
@@ -251,9 +283,65 @@ int main()
 										printf("Socket OK\n\r");
 										}
 										break;
+								  default:
+                    break;
 							  }
-								ret = sendto(SOCK_UDPS, (uint8_t*)udp_send_txt, strlen(udp_send_txt), dest_ip, dest_port);
-                break;
+								
+								
+								if(flag_event_A)
+								{
+									for(i=0;i<SENSORS_CNT;i++)
+									{
+										if(((flag_event_A>>i)&1) &&
+											 ((flag_event_E>>i)==0))
+										{
+											sprintf(tmp_udp_send_txt,"%.2X%.2X%.2X",mac_addr[3],mac_addr[4],mac_addr[5]);
+											strcpy(udp_send_txt, tmp_udp_send_txt);
+											strcat(udp_send_txt,"\tA");
+											sprintf(tmp_udp_send_txt, "\t%.2d\t%d\t%d", i+1, (int32_t)weight_vals[i]-(int32_t)weight_vals_state[i], systickcnt-systick_stop[i]);
+											strcat(udp_send_txt,tmp_udp_send_txt);
+											weight_vals_state[i] = weight_vals[i];
+											ret = sendto(SOCK_UDPS, (uint8_t*)udp_send_txt, strlen(udp_send_txt), dest_ip, dest_port);
+											memset(udp_send_txt,0,sizeof(udp_send_txt));
+										}
+									}
+									flag_event_A = 0;
+								}
+								
+								
+								if(flag_event_H)
+								{
+									sprintf(tmp_udp_send_txt,"%.2X%.2X%.2X",mac_addr[3],mac_addr[4],mac_addr[5]);
+									strcpy(udp_send_txt, tmp_udp_send_txt);
+									strcat(udp_send_txt,"\tH");
+									for(i=0;i<SENSORS_CNT;i++)
+									{
+										sprintf(tmp_udp_send_txt, "\t%d", (int32_t)weight_vals[i]-18641);
+										strcat(udp_send_txt,tmp_udp_send_txt);
+									}
+									ret = sendto(SOCK_UDPS, (uint8_t*)udp_send_txt, strlen(udp_send_txt), dest_ip, dest_port);
+                  memset(udp_send_txt,0,sizeof(udp_send_txt));
+                  flag_event_H = 0;
+									if(flag_event_E)
+									{
+										for(i=0;i<SENSORS_CNT;i++)
+										{
+											if((flag_event_E>>i)&1)
+											{
+												sprintf(tmp_udp_send_txt,"%.2X%.2X%.2X",mac_addr[3],mac_addr[4],mac_addr[5]);
+												strcpy(udp_send_txt, tmp_udp_send_txt);
+												strcat(udp_send_txt,"\tE");
+												sprintf(tmp_udp_send_txt, "\t%.2d", i+1);
+												strcat(udp_send_txt,tmp_udp_send_txt);
+												ret = sendto(SOCK_UDPS, (uint8_t*)udp_send_txt, strlen(udp_send_txt), dest_ip, dest_port);
+												memset(udp_send_txt,0,sizeof(udp_send_txt));
+											}
+										}
+										flag_event_E = 0;
+									}									
+								}
+								
+								break;
 
             case DHCP_FAILED:
                 /* ===== Example pseudo code =====  */
@@ -273,7 +361,6 @@ int main()
                 break;
         }	
 
-    memset(udp_send_txt,0,sizeof(udp_send_txt));
     }
 
 }
