@@ -19,6 +19,13 @@
  * @date    01-May-2015
  * @brief   Main program body
  ******************************************************************************
+ ******************************************************************************
+ * @file    WeightSensor/core board/main.c 
+ * @author  chydfire
+ * @version V0.2.2
+ * @date    30-Nov-2017
+ * @brief   Main program body
+ ******************************************************************************
  * @attention
  *
  * THE PRESENT FIRMWARE WHICH IS FOR GUIDANCE ONLY AIMS AT PROVIDING CUSTOMERS
@@ -47,7 +54,7 @@
 
 #include "jiansensors.h"
 /* Private typedef -----------------------------------------------------------*/
-UART_InitTypeDef UART_InitStructure;
+
 
 /* Private define ------------------------------------------------------------*/
 #define __DEF_USED_MDIO__ 
@@ -61,12 +68,11 @@ UART_InitTypeDef UART_InitStructure;
 #define SOCK_UDPS	1
 #define SOCK_DHCP	2
 
-#define MY_MAX_DHCP_RETRY   3
-
-#define ALLJSCNT 14
-#define SENSORS_CNT 3
-#define GAIN 1
-#define WEIGTHERR 5
+#define MY_MAX_DHCP_RETRY   3                                    
+#define ALLJSCNT 14                                              //Count of connector Jxs on jianboard
+#define SENSORS_CNT 3                                            //Sensors count 
+#define GAIN 1                                                   //Default channel 1
+#define WEIGTHERR 5                                              
 
 /* Private function prototypes -----------------------------------------------*/
 void delay(__IO uint32_t milliseconds); //Notice: used ioLibray
@@ -76,37 +82,38 @@ void TimingDelay_Decrement(void);
 static __IO uint32_t TimingDelay;
 uint8_t test_buf[2048];
 uint32_t my_dhcp_retry = 0;
-uint8_t dest_ip[4];
-uint16_t dest_port = 1234;
-uint8_t mac_addr[6] = {0xEE, 0xEE, 0xEE, 0x01, 0x01, 0x01};
-uint8_t sensors_used_jno[SENSORS_CNT] = {1,2,3};
-uint32_t weight_vals[SENSORS_CNT];
-uint32_t weight_vals_pre1[SENSORS_CNT];
-uint32_t weight_vals_pre2[SENSORS_CNT];
-uint32_t weight_vals_state[SENSORS_CNT];
-uint16_t systick_start[SENSORS_CNT];
-uint16_t systick_stop[SENSORS_CNT];
-uint16_t flag_event_E = 0;
-uint16_t flag_event_A = 0;
-uint16_t flag_init_state = 0;
-char udp_send_txt[256];
+uint8_t dest_ip[4];                                              //Udp dest ip
+uint16_t dest_port = 1234;                                       //Udp dest port
+uint8_t mac_addr[6] = {0xEE, 0xEE, 0xEE, 0x01, 0x01, 0x01};      //Mac address, mac[3]: No. store, mac[4]:No. shelf, mac[5]: No. layer
+uint8_t sensors_used_jno[SENSORS_CNT] = {1,2,3};                 //Sensors used connectors Jxs
+uint32_t weight_vals[SENSORS_CNT];                               //Current weight
+uint32_t weight_vals_pre1[SENSORS_CNT];                          //Last weight
+uint32_t weight_vals_pre2[SENSORS_CNT];                          //Weight before last
+uint32_t weight_vals_state[SENSORS_CNT];                         //State weight records
+uint16_t systick_start[SENSORS_CNT];                             //State time
+uint16_t systick_stop[SENSORS_CNT];                              //Last state time
+uint16_t flag_event_E = 0;                                       //Flag of empty sensor
+uint16_t flag_event_A = 0;                                       //Flag of weight changed
+uint16_t flag_init_state = 0;                                    //Flag of state init
+char udp_send_txt[256];                                          //Char array udp send
 
-/**********||    |DAT  |SCK  ||****************/
-/**********||----|-----|-----||****************/
-/**********|| J1 |PC_08|PC_09||****************/
-/**********|| J2 |PC_12|PC_13||****************/
-/**********|| J3 |PC_14|PC_15||****************/
-/**********|| J4 |PA_05|PA_06||****************/
-/**********|| J5 |PA_07|PA_08||****************/
-/**********|| J6 |PA_09|PA_10||****************/
-/**********|| J7 |PA_00|PA_01||****************/
-/**********|| J8 |PA_02|PA_11||****************/
-/**********|| J9 |PA_12|PA_13||****************/
-/**********|| J10|PA_14|PB_00||****************/
-/**********|| J11|PB_01|PB_02||****************/
-/**********|| J12|PB_03|PB_00||****************/
-/**********|| J13|PC_01|PC_02||****************/
-/**********|| J14|PC_03|PC_04||****************/
+/*Jianboar connecter Jxs*/
+/**********||    |DAT  |SCK  ||***********/
+/**********||----|-----|-----||***********/
+/**********|| J1 |PC_08|PC_09||***********/
+/**********|| J2 |PC_12|PC_13||***********/
+/**********|| J3 |PC_14|PC_15||***********/
+/**********|| J4 |PA_05|PA_06||***********/
+/**********|| J5 |PA_07|PA_08||***********/
+/**********|| J6 |PA_09|PA_10||***********/
+/**********|| J7 |PA_00|PA_01||***********/
+/**********|| J8 |PA_02|PA_11||***********/
+/**********|| J9 |PA_12|PA_13||***********/
+/**********|| J10|PA_14|PB_00||***********/
+/**********|| J11|PB_01|PB_02||***********/
+/**********|| J12|PB_03|PB_00||***********/
+/**********|| J13|PC_01|PC_02||***********/
+/**********|| J14|PC_03|PC_04||***********/
 JIANBOARD_J ALLJS[ALLJSCNT] = {{GPIOC, GPIO_Pin_8, GPIOC, GPIO_Pin_9},        //J1
 															 {GPIOC, GPIO_Pin_12, GPIOC, GPIO_Pin_13},      //J2
 															 {GPIOC, GPIO_Pin_14, GPIOC, GPIO_Pin_15},      //J3
@@ -137,7 +144,6 @@ int main()
 
     /* External Clock */
     //CRG_PLL_InputFrequencySelect(CRG_OCLK);
-
     /* Set Systme init */
     SystemInit();
 		S_UART_Init(115200);
@@ -150,6 +156,7 @@ int main()
     {
 			JianSensor_Init(ALLJS[sensors_used_jno[i]-1], SENSORS_CNT);
 		}
+		/*Init read data and store as pre2*/
 		for(j=0;j<16;j++)
 		{
 			for(i=0;i<SENSORS_CNT;i++)
@@ -157,6 +164,7 @@ int main()
 				weight_vals_pre2[i] += JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN)>>4;
 			}
 		}
+		/*Init read data and store as pre1*/
 		for(j=0;j<16;j++)
 		{
 			for(i=0;i<SENSORS_CNT;i++)
@@ -206,31 +214,32 @@ int main()
     while(1)
     {
 			  delay(100);
+			printf("> Weight:");
 			  for(i=0;i<SENSORS_CNT;i++)
-				{
-					weight_vals[i] = JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN);
+				{ 
+					weight_vals[i] = JianSensor_Read(ALLJS[sensors_used_jno[i]-1], GAIN);      //Read current weight
 					if((weight_vals[i]==weight_vals_pre1[i])&&
-						 (weight_vals[i]==weight_vals_pre2[i]))
+						 (weight_vals[i]==weight_vals_pre2[i]))                                  //Whether state, 3 continuous datas are equal->state
 					{ 
-						if((flag_init_state>>i)&1)
+						if((flag_init_state>>i)&1)                                               //If state, Whether init state
 						{
-							if(weight_vals[i] == 18641)
-								flag_event_E = flag_event_E | (1<<i);
+							if(weight_vals[i] == 18641)                                            //If not init state*//*Whether empty weight sensor
+								flag_event_E = flag_event_E | (1<<i);                                //If sensor i is empty, set bit i of the flag
 							if((weight_vals[i]>(weight_vals_state[i]+WEIGTHERR)) ||
-								 (weight_vals_state[i]>(weight_vals[i]+WEIGTHERR)))
+								 (weight_vals_state[i]>(weight_vals[i]+WEIGTHERR)))                  //Whether current state weight is different from last, difference larger than ERR
 							{
-								flag_event_A = flag_event_A | (1<<i);
-								systick_stop[i] = systick_start[i];
+								flag_event_A = flag_event_A | (1<<i);                                //If sensor i state changed, set bit i of the flag
+								systick_stop[i] = systick_start[i];                                  //Store the last state time
 							}
-							systick_start[i] = systickcnt;
+							systick_start[i] = systickcnt;                                         //Store the current state time
 						}
 						else
 						{
-							flag_init_state = flag_init_state | (1<<i);
-							weight_vals_state[i] = weight_vals[i];
+							flag_init_state = flag_init_state | (1<<i);                            //if init state, set bit i of the flag
+							weight_vals_state[i] = weight_vals[i];                                 //Store init state weight
 						}
 					}
-					weight_vals_pre2[i] = weight_vals_pre1[i];
+					weight_vals_pre2[i] = weight_vals_pre1[i];                                 //Update pre2, pre1 weights
 					weight_vals_pre1[i] = weight_vals[i];
 					printf(" %d", (int32_t)weight_vals[i]-18641);
 				}
@@ -275,7 +284,7 @@ int main()
 										printf("%d:Closed\r\n",SOCK_UDPS);
 										break;
 									case SOCK_CLOSED:
-										ret = socket(SOCK_UDPS,Sn_MR_UDP,5000,0);
+										ret = socket(SOCK_UDPS,Sn_MR_UDP,5000,0);               //Create UDP socket
 										if(ret != SOCK_UDPS){
 										printf("%d:Socket Error\r\n",SOCK_UDPS);
 										while(1);
@@ -288,11 +297,11 @@ int main()
 							  }
 								
 								
-								if(flag_event_A)
+								if(flag_event_A)                                         
 								{
-									for(i=0;i<SENSORS_CNT;i++)
+									for(i=0;i<SENSORS_CNT;i++)                                //If sensor i weight chagend
 									{
-										if(((flag_event_A>>i)&1) &&
+										if(((flag_event_A>>i)&1) &&                             //Udp send package A: (macaddr[3:5])\tA\t(sensor i)\t(weight changed)\t(time interval)
 											 ((flag_event_E>>i)==0))
 										{
 											sprintf(tmp_udp_send_txt,"%.2X%.2X%.2X",mac_addr[3],mac_addr[4],mac_addr[5]);
@@ -305,13 +314,13 @@ int main()
 											memset(udp_send_txt,0,sizeof(udp_send_txt));
 										}
 									}
-									flag_event_A = 0;
+									flag_event_A = 0;                                        //Flag clear
 								}
 								
 								
-								if(flag_event_H)
+								if(flag_event_H)                                           //Through systick, per 3 secod heart beat flag is set to 1
 								{
-									sprintf(tmp_udp_send_txt,"%.2X%.2X%.2X",mac_addr[3],mac_addr[4],mac_addr[5]);
+									sprintf(tmp_udp_send_txt,"%.2X%.2X%.2X",mac_addr[3],mac_addr[4],mac_addr[5]);  //Udp send package H: (macaddr[3:5])\tH\t(weights i++)
 									strcpy(udp_send_txt, tmp_udp_send_txt);
 									strcat(udp_send_txt,"\tH");
 									for(i=0;i<SENSORS_CNT;i++)
@@ -322,9 +331,10 @@ int main()
 									ret = sendto(SOCK_UDPS, (uint8_t*)udp_send_txt, strlen(udp_send_txt), dest_ip, dest_port);
                   memset(udp_send_txt,0,sizeof(udp_send_txt));
                   flag_event_H = 0;
-									if(flag_event_E)
+									
+									if(flag_event_E)                                         //If sensor i is empty
 									{
-										for(i=0;i<SENSORS_CNT;i++)
+										for(i=0;i<SENSORS_CNT;i++)                             //Udp send package E: (macaddr[3:5])\tE\t(sensor i)       
 										{
 											if((flag_event_E>>i)&1)
 											{
@@ -337,7 +347,7 @@ int main()
 												memset(udp_send_txt,0,sizeof(udp_send_txt));
 											}
 										}
-										flag_event_E = 0;
+										flag_event_E = 0;                                      //Flag clear
 									}									
 								}
 								

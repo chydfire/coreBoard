@@ -13,7 +13,7 @@ typedef struct _hx711
 	// 1: channel A, gain factor 128
 	// 2: channel B, gain factor 32
   // 3: channel A, gain factor 64
-}HX711;
+}HX711; //Typedef hx711
 
 void HX711_Init(HX711 sensor);
 uint32_t HX711_Read(HX711 sensor);

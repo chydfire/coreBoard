@@ -2,8 +2,13 @@
 #include "jiansensors.h"
 #include "hx711.h"
 
-#define K 450
+#define K 450                       //Coefficient, data = hx711 read data / K
 
+/**
+ * @brief  GPIOs Config of Jx connector.
+ * @param  Jx connector, gain: GAIN of hx711 channel
+ * @retval None
+ */
 void JianSensor_Init(JIANBOARD_J JIANBOARD_Jx, int gain)
 {
 	HX711 JianSensor;
@@ -17,6 +22,11 @@ void JianSensor_Init(JIANBOARD_J JIANBOARD_Jx, int gain)
 	HX711_Init(JianSensor);
 }
 
+/**
+ * @brief  Data read of Jx connector.
+ * @param  Jx connector, gain: GAIN of hx711 channel
+ * @retval Data of Jx connector
+ */
 uint32_t JianSensor_Read(JIANBOARD_J JIANBOARD_Jx, int gain)
 {
 	uint32_t val;

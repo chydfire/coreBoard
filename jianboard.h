@@ -9,7 +9,7 @@ typedef struct _jianboard_j
 	uint16_t pin2;
 	GPIO_TypeDef* gpioPin1;
 	uint16_t pin1;
-}JIANBOARD_J;
+}JIANBOARD_J; //Typedef Jx connector, GPIO type and pin number
 
 
 

@@ -13,7 +13,10 @@
 .\obj\main.o: ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_crg.h
 .\obj\main.o: ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_wztoe.h
 .\obj\main.o: ..\..\..\..\..\ioLibrary\MDIO\W7500x_miim.h
+.\obj\main.o: ..\W7500x_it.h
 .\obj\main.o: ..\hx711.h
 .\obj\main.o: ..\..\..\..\..\ioLibrary\Internet\DHCP\dhcp.h
 .\obj\main.o: ..\..\..\..\..\ioLibrary\Ethernet\socket.h
 .\obj\main.o: ..\..\..\..\..\ioLibrary\Ethernet\wizchip_conf.h
+.\obj\main.o: ..\jiansensors.h
+.\obj\main.o: ..\jianboard.h

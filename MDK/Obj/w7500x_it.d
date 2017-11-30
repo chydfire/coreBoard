@@ -11,3 +11,4 @@
 .\obj\w7500x_it.o: ..\..\..\..\..\ioLibrary\Ethernet\wizchip_conf.h
 .\obj\w7500x_it.o: ..\..\..\..\..\Libraries\W7500x_stdPeriph_Driver\inc\W7500x_wztoe.h
 .\obj\w7500x_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\w7500x_it.o: ..\W7500x_it.h
